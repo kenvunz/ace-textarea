@@ -80,9 +80,6 @@
 				pre.css(property, value);
 			});
 
-			// copy textarea value over
-			//pre.html(this.$dom.html());
-
 			this.$dom.hide();
 
 			return pre.get(0);
