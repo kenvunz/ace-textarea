@@ -12,7 +12,7 @@
 			this.dom = dom;
 			this.$dom = $(dom);
 			this.options = options,
-			this.config = $.extend({}, this.defaults, this.options);
+			this.config = $.extend(true, {}, this.defaults, this.options);
 
 			this.initialize();
 		};
