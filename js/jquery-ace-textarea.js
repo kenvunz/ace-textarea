@@ -29,7 +29,9 @@
 			},
 			styles: {
 				position: 'relative'
-			}
+			},
+
+			overlay: true
 		},
 
 		ace: null,
@@ -39,8 +41,21 @@
 		},
 
 		update: function() {
-			this.ace.setValue(this.$dom.text());
+			this.ace.setValue(this.$dom.val());
 			this.ace.clearSelection();
+		},
+
+		resize: function(width, height) {
+			this.$pre.width(width).height(height);
+			this.ace.resize()
+		},
+
+		hide: function() {
+			this.$pre.hide();
+		},
+
+		show: function() {
+			this.$pre.show();
 		},
 
 		_build: function() {
@@ -76,11 +91,23 @@
 			// copy all the styles of the textarea so we can apply to our editor
 			var styles = $.extend({}, this._copyTextareaStyles(), this.config.styles);
 
+			if(this.config.overlay) {
+				styles.position = 'absolute';
+				styles.top = styles.top == 'auto'? 0 : styles.top;
+				styles.left = styles.left == 'auto'? 0 : styles.left;
+			}
+
 			$.each(styles, function(property, value) {
 				pre.css(property, value);
 			});
 
-			this.$dom.hide();
+			if(!this.config.overlay) this.$dom.hide();
+			else {
+				this.$dom.parent().css('position', 'relative');
+				this.$dom.css('visibility', 'hidden');
+			}
+
+			this.$pre = pre;
 
 			return pre.get(0);
 		}
